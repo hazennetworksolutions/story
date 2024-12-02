@@ -209,7 +209,7 @@ story init --moniker $MONIKER --network ${$STORY_CHAIN_ID}
 # Download genesis and addrbook files
 printGreen "8. Downloading genesis and addrbook..."
 wget -O $HOME/.story/story/config/genesis.json https://raw.githubusercontent.com/hazennetworksolutions/story/refs/heads/main/genesis.json
-wget -O $HOME/.story/story/config/addrbook.json  https://github.com/hazennetworksolutions/story/blob/main/addrbook.json
+wget -O $HOME/.story/story/config/addrbook.json  https://raw.githubusercontent.com/hazennetworksolutions/story/refs/heads/main/addrbook.json
 
 # Configure gas prices and ports
 printGreen "9. Configuring custom ports and gas prices..." && sleep 1
@@ -232,11 +232,8 @@ sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
 
 # Pruning Settings
 printGreen "12. Setting up pruning config..." && sleep 1
-sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.symphonyd/config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.symphonyd/config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"19\"/" $HOME/.symphonyd/config/app.toml
-sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.symphonyd/config/config.toml
-sed -i -e 's|^indexer *=.*|indexer = "null"|' $HOME/.symphonyd/config/config.toml
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.story/story/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.story/story/config/config.toml
 
 # Download the snapshot
 # printGreen "12. Downloading snapshot and starting node..." && sleep 1
