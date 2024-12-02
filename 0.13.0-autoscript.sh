@@ -200,18 +200,20 @@ After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which cosmovisor) run start --home $HOME/.story/story
+Environment="DAEMON_NAME=story"
+Environment="DAEMON_HOME=$HOME/.story/story"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+Environment="UNSAFE_SKIP_BACKUP=true"
+Environment="DAEMON_DATA_BACKUP_DIR=$HOME/.story/story/data"
+ExecStart=$(which cosmovisor) run run
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
-Environment="DAEMON_HOME=${HOME}/.story/story"
-Environment="DAEMON_NAME=story"
-Environment="UNSAFE_SKIP_BACKUP=true"
-Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:~/.story/story/cosmovisor/current/bin"
 
 [Install]
 WantedBy=multi-user.target
 EOF
+
 
 # Enable the service
 sudo systemctl daemon-reload
