@@ -164,6 +164,8 @@ mkdir -p $HOME/.story/story/cosmovisor/genesis/bin
 mv $HOME/story $HOME/.story/story/cosmovisor/genesis/bin
 sudo ln -sf $HOME/.story/story/cosmovisor/genesis $HOME/.story/story/cosmovisor/current -f
 sudo ln -sf $HOME/.story/story/cosmovisor/current/bin/story /usr/local/bin/story -f
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.7.0
+
 
 # Create geth service file
 printGreen "6. Creating geth service file..." && sleep 1
