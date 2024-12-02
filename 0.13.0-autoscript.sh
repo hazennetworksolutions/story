@@ -77,7 +77,7 @@ Hazen Network Solutions 2024 All rights reserved."
 printNodeLogo
 
 # User confirmation to proceed
-echo -n "Type 'yes' to start the installation Story - Geth v0.13.0 and press Enter: "
+echo -n "Type 'yes' to start the installation Story v0.13.0 and press Enter: "
 read user_input
 
 if [[ "$user_input" != "yes" ]]; then
@@ -102,7 +102,6 @@ sudo rm -rf /etc/systemd/system/story-geth.service
 sudo rm $(which story)
 sudo rm $(which story-geth)
 sudo rm -rf $HOME/.story
-sudo rm -rf $HOME/.story-geth
 sed -i "/story_/d" $HOME/.bash_profile
 sed -i "/story-geth_/d" $HOME/.bash_profile
 
@@ -119,8 +118,8 @@ echo 'export PORT='$PORT
 
 # Setting environment variables
 echo "export MONIKER=$MONIKER" >> $HOME/.bash_profile
-echo "export SYMPHONY_CHAIN_ID=\"symphony-testnet-4\"" >> $HOME/.bash_profile
-echo "export SYMPHONY_PORT=$PORT" >> $HOME/.bash_profile
+echo "export STORY_CHAIN_ID=\"odyssey\"" >> $HOME/.bash_profile
+echo "export STORY_PORT=$PORT" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 printLine
@@ -201,11 +200,11 @@ EOF
 
 # Enable the service
 sudo systemctl daemon-reload
-sudo systemctl enable symphonyd
+sudo systemctl enable story story-geth
 
 # Initialize the node
 printGreen "7. Initializing the node..."
-symphonyd init ${MONIKER} --chain-id ${SYMPHONY_CHAIN_ID}
+story init --moniker $MONIKER --network ${$STORY_CHAIN_ID}
 
 # Download genesis and addrbook files
 printGreen "8. Downloading genesis and addrbook..."
@@ -255,11 +254,11 @@ sed -i -e 's|^indexer *=.*|indexer = "null"|' $HOME/.symphonyd/config/config.tom
 
 # Start the node
 printGreen "13. Starting the node..."
-sudo systemctl start story
+sudo systemctl restart story-geth && sleep 5 && sudo systemctl restart story
 
 # Check node status
 printGreen "14. Checking node status..."
-sudo journalctl -u symphonyd -f -o cat
+sudo journalctl -u story -u story-geth -f -o cat
 
 # Verify if the node is running
 if systemctl is-active --quiet story; then
