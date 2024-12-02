@@ -171,7 +171,7 @@ go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.7.0
 
 # Initialize the node
 printGreen "7. Initializing the node..."
-story init --moniker $MONIKER --network $STORY_CHAIN_ID}
+story init --moniker $MONIKER --network $STORY_CHAIN_ID
 
 # Create geth service file
 printGreen "6. Creating geth service file..." && sleep 1
