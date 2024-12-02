@@ -145,7 +145,16 @@ source $HOME/.bash_profile
 # Version check
 echo $(go version) && sleep 1
 
-# Download Prysm protocol binary
+# Download Geth binary
+printGreen "3. Downloading Geth binary and setting up..." && sleep 1
+cd $HOME
+wget -O geth https://github.com/piplabs/story-geth/releases/download/v0.10.1/geth-linux-amd64
+chmod +x $HOME/geth
+mv $HOME/geth ~/go/bin/
+[ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
+[ ! -d "$HOME/.story/geth" ] && mkdir -p "$HOME/.story/geth"
+
+# Download Story binary
 printGreen "3. Downloading Story binary and setting up..." && sleep 1
 cd $HOME
 rm -rf story
