@@ -105,6 +105,9 @@ sudo rm -rf $HOME/.story
 sed -i "/story_/d" $HOME/.bash_profile
 sed -i "/story-geth_/d" $HOME/.bash_profile
 
+sudo ufw allow 30303/tcp comment geth_p2p_port
+sudo ufw allow 26656/tcp comment story_p2p_port
+
 # Update packages and install dependencies
 printGreen "1. Updating and installing dependencies..."
 sudo apt-get update && sudo apt-get upgrade -y
@@ -166,6 +169,9 @@ sudo ln -sf $HOME/.story/story/cosmovisor/genesis $HOME/.story/story/cosmovisor/
 sudo ln -sf $HOME/.story/story/cosmovisor/current/bin/story /usr/local/bin/story -f
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.7.0
 
+# Initialize the node
+printGreen "7. Initializing the node..."
+story init --moniker $MONIKER --network ${$STORY_CHAIN_ID}
 
 # Create geth service file
 printGreen "6. Creating geth service file..." && sleep 1
@@ -184,7 +190,6 @@ LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
-
 
 # Create service file
 printGreen "6. Creating story service file..." && sleep 1
@@ -208,14 +213,9 @@ Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 WantedBy=multi-user.target
 EOF
 
-
 # Enable the service
 sudo systemctl daemon-reload
 sudo systemctl enable story story-geth
-
-# Initialize the node
-printGreen "7. Initializing the node..."
-story init --moniker $MONIKER --network ${$STORY_CHAIN_ID}
 
 # Download genesis and addrbook files
 printGreen "8. Downloading genesis and addrbook..."
@@ -248,9 +248,6 @@ sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.story/story/config/config
 
 # Download the snapshot
 # printGreen "12. Downloading snapshot and starting node..." && sleep 1
-
-
-
 
 
 # Start the node
