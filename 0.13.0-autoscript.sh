@@ -151,7 +151,7 @@ echo $(go version) && sleep 1
 # Download Geth binary
 printGreen "3. Downloading Geth binary and setting up..." && sleep 1
 cd $HOME
-wget -O geth https://github.com/piplabs/story-geth/releases/download/v0.10.1/geth-linux-amd64
+wget -O geth https://github.com/piplabs/story-geth/releases/download/v0.11.0/geth-linux-amd64
 chmod +x $HOME/geth
 mv $HOME/geth ~/go/bin/
 [ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
