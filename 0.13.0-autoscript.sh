@@ -161,7 +161,7 @@ mv $HOME/geth ~/go/bin/
 printGreen "3. Downloading Story binary and setting up..." && sleep 1
 cd $HOME
 rm -rf story
-wget -O story https://github.com/piplabs/story/releases/download/v0.13.0/story-linux-amd64
+wget -O story https://github.com/piplabs/story/releases/download/v0.13.2/story-linux-amd64
 chmod +x story
 mkdir -p $HOME/.story/story/cosmovisor/genesis/bin
 mv $HOME/story $HOME/.story/story/cosmovisor/genesis/bin
